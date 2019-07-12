@@ -17,14 +17,10 @@ public class Program {
 		Department department = new Department(2, null);
 		
 		List<Seller> list = sellerDao.findByDepartment(department);
-		for(Seller obj : list) {
-			System.out.println(obj);
-		}
 		
-		list = sellerDao.findAll();
-		for(Seller obj : list) {
-			System.out.println(obj);
-		}
+		Seller newSeller = new Seller(null, "Greg", "Greg@gmail.com", new Date(), 4000.0, department);
+		sellerDao.insert(newSeller);
+		System.out.println(newSeller.getId());
 	}
 
 }
