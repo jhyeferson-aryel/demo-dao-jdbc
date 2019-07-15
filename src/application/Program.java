@@ -16,11 +16,12 @@ public class Program {
 		
 		Department department = new Department(2, null);
 		
-		List<Seller> list = sellerDao.findByDepartment(department);
+		Seller seller = new Seller();
+		seller = sellerDao.findById(1);
+		seller.setName("Martha Wayne");
+		sellerDao.update(seller);
+		System.out.println("Update Completed!");
 		
-		Seller newSeller = new Seller(null, "Greg", "Greg@gmail.com", new Date(), 4000.0, department);
-		sellerDao.insert(newSeller);
-		System.out.println(newSeller.getId());
 	}
 
 }
