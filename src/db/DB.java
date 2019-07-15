@@ -10,7 +10,8 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class DB {
-
+	//Essa classe é personalizada e é responsavel por manipular a conexão com o BD
+	//Fechar conexão, iniciar, carregar propriedades são algumas possibilidades
 	private static Connection conn = null;
 	
 	public static Connection getConnection() {

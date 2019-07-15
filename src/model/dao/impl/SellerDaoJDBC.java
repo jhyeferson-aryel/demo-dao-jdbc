@@ -17,7 +17,9 @@ import model.entities.Department;
 import model.entities.Seller;
 
 public class SellerDaoJDBC implements SellerDao {
-	
+	//Classe que herda do DAO, implementado obrigatóriamente todos os métodos da interface
+
+	//Variavel para abrir conexão com BD
 	private Connection conn;
 	
 	public SellerDaoJDBC(Connection conn) {
@@ -26,13 +28,18 @@ public class SellerDaoJDBC implements SellerDao {
 	
 	@Override
 	public void insert(Seller obj) {
+		//Variavel responsável para manipular o objeto
 		PreparedStatement st = null;
 		try {
+			//Méotodo conn que abre a conexão, utilizando o método para executar a Query SQL
 			st = conn.prepareStatement("INSERT INTO seller\r\n" + 
 					"(Name, Email, BirthDate, BaseSalary, DepartmentId)\r\n " + 
 					"VALUES\r\n " + 
 					"(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			
+			//As interrogações na query são substituidas pelo parametro do método com o método abaixo
+			//Você escolhe o metodo adequado de acordo com o tipo de dado no BD, passa como primeiro parametro
+			//qual interrogação você quer substituir e passa o valor a ser atribuido que é recebido por parametro
 			st.setString(1, obj.getName());
 			st.setString(2, obj.getEmail());
 			st.setDate(3, new java.sql.Date(obj.getBirthdate().getTime()));
@@ -41,6 +48,8 @@ public class SellerDaoJDBC implements SellerDao {
 			
 			int rowsAffected = st.executeUpdate();
 			
+			//RETURN_GENERATED_KEYS é usado para descobrir qual o ID gerado após a execução da Query
+			//Se maior que 0, siginifca que houve manipulação no banco e o ResultSet retorna o ID
 			if(rowsAffected > 0) {
 				ResultSet rs = st.getGeneratedKeys();
 				if(rs.next()) {
@@ -49,11 +58,13 @@ public class SellerDaoJDBC implements SellerDao {
 					
 				}
 			}else {
+				//Exceção personalizada da classe DbException, criada pelo instrutor
 				throw new DbException("Unexpected error! No rows affected!");
 			}
 		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}finally {
+			//É sempre importante fechar a manipulação do objeto
 			DB.closeStatement(st);
 		}
 	}
@@ -99,6 +110,7 @@ public class SellerDaoJDBC implements SellerDao {
 	@Override
 	public Seller findById(Integer id) {
 		PreparedStatement st = null;
+		//ResultSet é responsável por armazenar o resultado gerado após a execução da Query
 		ResultSet rs = null;
 		
 		try {

@@ -6,6 +6,7 @@ import model.entities.Department;
 import model.entities.Seller;
 
 public interface SellerDao {
+	//É uma interface que serve para implementar os métodos de acesso à dados no BD
 	void insert(Seller obj);
 	void update(Seller obj);
 	void deleteById(Integer id);
